@@ -1,6 +1,15 @@
 // A script for running a square-lattice logic circuit
 
 // Define globals
+var ops = {
+	"0": function(){return 0;},
+	"R": function(){return this.rightInput;},
+	"L": function(){return this.leftInput;},
+	"&": function(){return this.leftInput && this.rightInput;},
+	"|": function(){return this.leftInput || this.rightInput;},
+	"^": function (){return (this.leftInput || this.rightInput) - (this.leftInput && this.rightInput);},
+}
+
 var canvas;
 var ctx;
 
@@ -48,8 +57,8 @@ function initCells(){
 				rightChild: (j < cells.nH && i < cells.nV) ? (number + cells.nH + 1) : null,
 				leftInput: 1,
 				rightInput: 1,
-				leftOutput: function (){return this.leftInput && this.rightInput;},
-				rightOutput: function (){return (this.leftInput || this.rightInput) - (this.leftInput && this.rightInput);},
+				leftOutput: ops["&"],
+				rightOutput: ops["^"],
 				name: "&^",
 			});
 		}
@@ -66,8 +75,8 @@ function initCells(){
 					rightChild: (j < cells.nH && i < cells.nV) ? (number + cells.nH + 1) : null,
 					leftInput: 1,
 					rightInput: 1,
-					leftOutput: function (){return this.rightInput;},
-					rightOutput: function (){return this.leftInput;},
+					leftOutput: ops["R"],
+					rightOutput: ops["L"],
 					name: "RL",
 				});
 			}
@@ -81,8 +90,10 @@ function initCells(){
 		var j = Math.round(2*x)/2;
 		var i = Math.round(2*y)/2;
 		var n = Math.round((2 * cells.nH + 1) * i + j);
-		var isIn = Math.abs(x-j) + Math.abs(y-i) < 1/5;
+		var isIn = (Math.abs(x-j) + Math.abs(y-i) < 1/5)
+			&& (Math.round(2*i + 2*j) % 2 == 0);
 		console.log([i, j, n, x, y, isIn, (Math.abs(x-j) + Math.abs(y-i))]);
+		if(isIn) updateGate(n);
 	});
 	
 	console.log(cells);
@@ -126,8 +137,8 @@ function drawCells(){
 		
 		// Draw circle text
 		ctx.fillStyle = 'black';
-		//ctx.fillText(cell.name, cell.x, cell.y);
-		ctx.fillText(cell.number.toString(), cell.x, cell.y);
+		ctx.fillText(cell.name, cell.x, cell.y);
+		//ctx.fillText(cell.number.toString(), cell.x, cell.y);
 	}
 }
 
@@ -139,4 +150,13 @@ function updateCells(){
 		if(cell.rightChild)
 			cells.cells[cell.rightChild].leftInput = cell.rightOutput();
 	}
+}
+
+function updateGate(cellNumber){
+	var newGate = document.querySelector('#gate').value;
+	cells.cells[cellNumber].name = newGate;
+	cells.cells[cellNumber].leftOutput = ops[newGate[0]];
+	cells.cells[cellNumber].rightOutput = ops[newGate[1]];
+	updateCells();
+	drawCells();
 }
