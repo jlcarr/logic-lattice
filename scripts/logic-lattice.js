@@ -4,7 +4,7 @@
 var canvas;
 var ctx;
 
-var cellSize = 180;
+var cellSize = 135;
 var cells = {
 	n: 0,
 	nH: 0,
@@ -35,6 +35,7 @@ function initCells(){
 	cells.origX = (canvas.width - cellSize * cells.nH)/2;
 	cells.origY = (canvas.height - cellSize * cells.nV)/2;
 	
+	// Fill the cells list
 	for(var i=0; i<=cells.nV; i++){
 		// reg cell
 		for(var j=0; j<=cells.nH; j++){
@@ -65,13 +66,25 @@ function initCells(){
 					rightChild: (j < cells.nH && i < cells.nV) ? (number + cells.nH + 1) : null,
 					leftInput: 1,
 					rightInput: 1,
-					leftOutput: function (){return this.leftInput;},
-					rightOutput: function (){return this.rightInput;},
-					name: "LR",
+					leftOutput: function (){return this.rightInput;},
+					rightOutput: function (){return this.leftInput;},
+					name: "RL",
 				});
 			}
 		}
 	}
+	
+	// Add lattice-click function
+	canvas.addEventListener('click', function(event){
+		var x = (event.layerX - cells.origX)/cellSize;
+		var y = (event.layerY - cells.origY)/cellSize;
+		var j = Math.round(2*x)/2;
+		var i = Math.round(2*y)/2;
+		var n = Math.round((2 * cells.nH + 1) * i + j);
+		var isIn = Math.abs(x-j) + Math.abs(y-i) < 1/5;
+		console.log([i, j, n, x, y, isIn, (Math.abs(x-j) + Math.abs(y-i))]);
+	});
+	
 	console.log(cells);
 }
 
@@ -100,15 +113,6 @@ function drawCells(){
 			ctx.stroke();
 		}
 		
-		// Draw circle
-		//ctx.beginPath();
-		//ctx.arc(cell.x, cell.y, cellSize/8, 0, Math.PI * 2, true);
-		//ctx.closePath();
-		//ctx.fillStyle = 'white';
-		//ctx.fill();
-		//ctx.strokeStyle = 'black';
-		//ctx.stroke();
-		
 		// Draw rect
 		ctx.lineWidth = 1;
 		ctx.save();
@@ -122,7 +126,8 @@ function drawCells(){
 		
 		// Draw circle text
 		ctx.fillStyle = 'black';
-		ctx.fillText(cell.name, cell.x, cell.y);
+		//ctx.fillText(cell.name, cell.x, cell.y);
+		ctx.fillText(cell.number.toString(), cell.x, cell.y);
 	}
 }
 
