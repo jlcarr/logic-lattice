@@ -6,10 +6,14 @@
 	</head>
 	<body>
 		<canvas id="canvas" style="border: 1px solid;" width="600" height="600"></canvas>
-		<br>
-		New Gate: <input id="gate" type="text" value="00"/>
-		<br>
 		<p>Click a gate to replace it with a gate of type "New Gate".</p>
+		New Gate: <input id="gate" type="text" value="00"/>
+		<br><br>
+		Sample Circuits:
+		<br>
+		<button type="button" onclick="buildAdder();updateCells();drawCells();">Adder</button>
+		<br>
+		
 	</body>
 </html>
 

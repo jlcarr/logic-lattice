@@ -8,6 +8,7 @@ var ops = {
 	"&": function(){return this.leftInput && this.rightInput;},
 	"|": function(){return this.leftInput || this.rightInput;},
 	"^": function (){return (this.leftInput || this.rightInput) - (this.leftInput && this.rightInput);},
+	"1": function(){return 1;},
 }
 
 var canvas;
@@ -23,9 +24,9 @@ var cells = {
 	origY: 0
 };
 
-window.addEventListener("load", setUp, false);
+window.addEventListener("load", setup, false);
 
-function setUp(){
+function setup(){
 	canvas = document.getElementById('canvas');
 	ctx = canvas.getContext('2d');
 	
@@ -55,11 +56,11 @@ function initCells(){
 				y: cells.origY + cellSize * i,
 				leftChild: (j > 0 && i < cells.nV) ? (number + cells.nH) : null,
 				rightChild: (j < cells.nH && i < cells.nV) ? (number + cells.nH + 1) : null,
-				leftInput: 1,
-				rightInput: 1,
-				leftOutput: ops["&"],
-				rightOutput: ops["^"],
-				name: "&^",
+				leftInput: 0,
+				rightInput: 0,
+				leftOutput: ops["R"],
+				rightOutput: ops["L"],
+				name: "RL",
 			});
 		}
 		
@@ -73,8 +74,8 @@ function initCells(){
 					y: cells.origY + cellSize * (i + 1/2),
 					leftChild: (i < cells.nV) ? (number + cells.nH) : null,
 					rightChild: (j < cells.nH && i < cells.nV) ? (number + cells.nH + 1) : null,
-					leftInput: 1,
-					rightInput: 1,
+					leftInput: 0,
+					rightInput: 0,
 					leftOutput: ops["R"],
 					rightOutput: ops["L"],
 					name: "RL",
@@ -92,8 +93,8 @@ function initCells(){
 		var n = Math.round((2 * cells.nH + 1) * i + j);
 		var isIn = (Math.abs(x-j) + Math.abs(y-i) < 1/5)
 			&& (Math.round(2*i + 2*j) % 2 == 0);
-		console.log([i, j, n, x, y, isIn, (Math.abs(x-j) + Math.abs(y-i))]);
-		if(isIn) updateGate(n);
+		//console.log([i, j, n, x, y, isIn, (Math.abs(x-j) + Math.abs(y-i))]);
+		if(isIn) updateGateClick(n);
 	});
 	
 	console.log(cells);
@@ -152,11 +153,37 @@ function updateCells(){
 	}
 }
 
-function updateGate(cellNumber){
+function updateGateClick(cellNumber){
 	var newGate = document.querySelector('#gate').value;
+	updateGate(cellNumber, newGate);
+	updateCells();
+	drawCells();
+}
+
+function updateGate(cellNumber, newGate){
 	cells.cells[cellNumber].name = newGate;
 	cells.cells[cellNumber].leftOutput = ops[newGate[0]];
 	cells.cells[cellNumber].rightOutput = ops[newGate[1]];
-	updateCells();
-	drawCells();
+}
+
+function buildAdder(){
+	for(var i=0; i<=cells.nV; i++){
+		// reg cell
+		for(var j=0; j<=cells.nH; j++){
+			var number = (2 * cells.nH + 1) * i + j;
+			if(i == 0 || i == cells.nV) updateGate(number, "00");
+			else if (j == 0) updateGate(number, "0R");
+			else if (j == cells.nH) updateGate(number, "L0");
+			else if (j <= cells.nH - i) updateGate(number, "&^");
+			else updateGate(number, "LR");
+		}
+		// staggered cell
+		if (i < cells.nV){
+			for(var j=0; j<cells.nH; j++){
+				var number = (2 * cells.nH + 1) * i + j + cells.nH + 1;
+				if (j < cells.nH - i) updateGate(number, "&^");
+				else updateGate(number, "LR");
+			}
+		}
+	}
 }
