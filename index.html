@@ -9,6 +9,9 @@
 		<br>
 		<input type="checkbox" id="number-gate" onclick="number_gate=this.checked; drawCells();">
 		<label for="number-gate">Show gate numbers</label>
+		<br>
+		<input type="checkbox" id="animate-static" onclick="stop(); animation_static = this.checked; updateCells(); drawCells(); if(animation_static) requestAnimationFrame(drawFrame);">
+		<label for="animate-static">Animate</label>
 		<p>Click a gate to replace it with a gate of type "New Gate".</p>
 		New Gate: <input id="gate" type="text" value="00"/>
 		<br><br>

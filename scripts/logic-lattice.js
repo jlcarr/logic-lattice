@@ -12,8 +12,15 @@ var ops = {
 }
 
 number_gate = false;
+animation_static = false;
 var canvas;
 var ctx;
+
+var animation = null;
+var then = 0;
+var loopLength = 1;
+var loopTime = 0;
+var loopFraction = 0.5;
 
 var cellSize = 135;
 var cells = {
@@ -24,6 +31,7 @@ var cells = {
 	origX: 0,
 	origY: 0
 };
+
 
 window.addEventListener("load", setup, false);
 
@@ -103,6 +111,7 @@ function initCells(){
 
 
 function drawCells(){
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	// Text Font settings
 	ctx.font = Math.floor(cellSize/8).toString() + 'px courier new';
 	ctx.textAlign = 'center';
@@ -110,22 +119,44 @@ function drawCells(){
 	
 	for (const cell of cells.cells){
 		// Draw sticks
-		ctx.lineWidth = 5;
-		if(cell.leftChild){
-			ctx.beginPath();
-			ctx.moveTo(cell.x, cell.y);
-			ctx.lineTo(cell.x - cellSize/2, cell.y + cellSize/2);
-			ctx.strokeStyle = cell.leftOutput() ? 'red' : 'blue';
-			ctx.stroke();
+		if(!animation_static){
+			ctx.lineWidth = 5;
+			if(cell.leftChild){
+				ctx.beginPath();
+				ctx.moveTo(cell.x, cell.y);
+				ctx.lineTo(cell.x - cellSize/2, cell.y + cellSize/2);
+				ctx.strokeStyle = cell.leftOutput() ? 'red' : 'blue';
+				ctx.stroke();
+			}
+			if(cell.rightChild){
+				ctx.beginPath();
+				ctx.moveTo(cell.x, cell.y);
+				ctx.lineTo(cell.x + cellSize/2, cell.y + cellSize/2);
+				ctx.strokeStyle = cell.rightOutput() ? 'red' : 'blue';
+				ctx.stroke();
+			}
 		}
-		if(cell.rightChild){
-			ctx.beginPath();
-			ctx.moveTo(cell.x, cell.y);
-			ctx.lineTo(cell.x + cellSize/2, cell.y + cellSize/2);
-			ctx.strokeStyle = cell.rightOutput() ? 'red' : 'blue';
-			ctx.stroke();
+		else{
+			ctx.lineWidth = 1;
+			ctx.strokeStyle = 'black';
+			if(cell.leftChild){
+				ctx.beginPath();
+				ctx.moveTo(cell.x, cell.y -cellSize/16);
+				ctx.lineTo(cell.x - cellSize/2, cell.y + cellSize/2 -cellSize/16);
+				ctx.moveTo(cell.x  +cellSize/16, cell.y);
+				ctx.lineTo(cell.x - cellSize/2  +cellSize/16, cell.y + cellSize/2);
+				ctx.stroke();
+			}
+			if(cell.rightChild){
+				ctx.beginPath();
+				ctx.moveTo(cell.x, cell.y +cellSize/16);
+				ctx.lineTo(cell.x + cellSize/2, cell.y + cellSize/2 +cellSize/16);
+				ctx.moveTo(cell.x  +cellSize/16, cell.y);
+				ctx.lineTo(cell.x + cellSize/2  +cellSize/16, cell.y + cellSize/2);
+				ctx.stroke();
+			}
 		}
-		
+
 		// Draw rect
 		ctx.lineWidth = 1;
 		ctx.save();
@@ -141,12 +172,31 @@ function drawCells(){
 		ctx.fillStyle = 'black';
 		if (!number_gate) ctx.fillText(cell.name, cell.x, cell.y);
 		else ctx.fillText(cell.number.toString(), cell.x, cell.y);
+		
+		
+		// Draw marble
+		if(animation_static){
+			ctx.fillStyle = 'black';
+			var loopDistance = cellSize/2*(1-loopFraction);
+			if (cell.leftInput){
+				ctx.beginPath();
+				ctx.arc(cell.x - loopDistance, cell.y - loopDistance, cellSize/16, 0, Math.PI * 2, true);
+				ctx.closePath();
+				ctx.fill();
+			}
+			if (cell.rightInput){
+				ctx.beginPath();
+				ctx.arc(cell.x + loopDistance, cell.y - loopDistance, cellSize/16, 0, Math.PI * 2, true);
+				ctx.closePath();
+				ctx.fill();
+			}
+		}
 	}
 }
 
 function updateCells(){
 	for(var i = 0; i < cells.cells.length; i++){
-		var cell = cells.cells[i];
+		var cell = animation_static ? cells.cells[cells.cells.length-1-i] : cells.cells[i];
 		if(cell.leftChild)
 			cells.cells[cell.leftChild].rightInput = cell.leftOutput();
 		if(cell.rightChild)
@@ -157,8 +207,10 @@ function updateCells(){
 function updateGateClick(cellNumber){
 	var newGate = document.querySelector('#gate').value;
 	updateGate(cellNumber, newGate);
-	updateCells();
-	drawCells();
+	if(!animation_static){
+		updateCells();
+		drawCells();
+	}
 }
 
 function updateGate(cellNumber, newGate){
@@ -188,3 +240,28 @@ function buildAdder(){
 		}
 	}
 }
+
+
+function drawFrame(time) {
+	// Setup time delta
+	time *= 0.001;
+	var dt = time - then;
+	if (dt > 0.1) dt = 0.1;  // clamp down timestep to avoid strange effects
+	then = time;
+	
+	loopTime += dt;
+	if (loopTime > loopLength){
+		updateCells();
+		loopTime = 0;
+	}
+	loopFraction = (loopTime % loopLength)/parseFloat(loopLength);
+	
+	drawCells();
+	
+	animation = requestAnimationFrame(drawFrame);
+}
+
+function stop(){
+	if (animation != null) cancelAnimationFrame(animation);
+}
+
