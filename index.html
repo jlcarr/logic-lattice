@@ -6,6 +6,9 @@
 	</head>
 	<body>
 		<canvas id="canvas" style="border: 1px solid;" width="600" height="600"></canvas>
+		<br>
+		<input type="checkbox" id="number-gate" onclick="number_gate=this.checked; drawCells();">
+		<label for="number-gate">Show gate numbers</label>
 		<p>Click a gate to replace it with a gate of type "New Gate".</p>
 		New Gate: <input id="gate" type="text" value="00"/>
 		<br><br>

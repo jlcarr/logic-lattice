@@ -11,6 +11,7 @@ var ops = {
 	"1": function(){return 1;},
 }
 
+number_gate = false;
 var canvas;
 var ctx;
 
@@ -138,8 +139,8 @@ function drawCells(){
 		
 		// Draw circle text
 		ctx.fillStyle = 'black';
-		ctx.fillText(cell.name, cell.x, cell.y);
-		//ctx.fillText(cell.number.toString(), cell.x, cell.y);
+		if (!number_gate) ctx.fillText(cell.name, cell.x, cell.y);
+		else ctx.fillText(cell.number.toString(), cell.x, cell.y);
 	}
 }
 
