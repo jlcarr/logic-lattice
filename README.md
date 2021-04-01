@@ -51,7 +51,8 @@ Here we have a table of all possible 2-input 1-output gates, where the rows show
 | 00 | 0 | &and; | &and;<sub>A&#773;</sub> | B |
 | 01 | &and;<sub>A&#773;</sub> | A | &nequiv; | &or; |
 | 10 | &#x22bd; | &equiv; | A&#773; | &or;<sub>A&#773;</sub> |
-| 11 | B&#773; | &or;<sub>B&#773;</sub> | &#x22bc; | 1 |  
+| 11 | B&#773; | &or;<sub>B&#773;</sub> | &#x22bc; | 1 |
+
 Notice that in order to match out Hamming weight constraint the first bit of our truth table encoding must always be zero: therefore only the first 2 rows of the table contain gates we can use in our synthesis.
 
 Now we can takes these gates and determine which pairs valid:
@@ -67,3 +68,30 @@ Now we can takes these gates and determine which pairs valid:
 | &nequiv; | X | X |  |  |  |  |  |  |
 
 And here we count the total 36 gates we're looking for.
+
+## Implementation
+So now that we have our set of logic gates, how can we actually implement them? Well, I'll leave the physical implementation to future project, but for this project I'd like to simply simulate their action in code.  
+This project takes the form of a simple webpage using HTML5 canvas and JavaScript to implement the lattice of logic gates. The gates are labeled by ordered pairs of 2-input 1-output gates we're familiar with. The left gate of the pair represent the value given to the left-output of the gate, and the right follows suit.  
+
+The user also has the option to toggle between the animated 'falling marble' simulation, and the more instantaneous electric circuit simulation.  
+In the animated simulation the presence of a falling ball or lack thereof represent HIGH and LOW logic accordingly.  
+In the instantaeous simulation the red wired and blue wires represent HIGH and LOW logic accordingly.  
+
+### Gates Implemented
+- **0**: Always return 0
+- **1**: Always returns 1 (not a gate that respects the Hamming weight condition, but useful for inputs)
+- **R**: returns the value of right input
+- **L**: returns the value of the left input
+- **&**: The AND gate
+- **|**: The OR gate
+- **^**: The XOR gate
+
+## References
+### Mechanical Computers
+- https://en.wikipedia.org/wiki/Mechanical_computer
+- https://en.wikipedia.org/wiki/Billiard-ball_computer
+- https://en.wikipedia.org/wiki/Digi-Comp_II
+- https://www.scottaaronson.com/blog/?p=1902
+### Boolean Logic
+- https://en.wikipedia.org/wiki/Boolean_circuit
+- https://en.wikipedia.org/wiki/Truth_table
