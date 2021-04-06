@@ -13,7 +13,9 @@
 		<br>
 		<input type="checkbox" id="animate-static" onclick="stop(); animation_static = this.checked; updateCells(); drawCells(); if(animation_static) requestAnimationFrame(drawFrame);">
 		<label for="animate-static">Animate</label>
-		<p>Click a gate to replace it with a gate of type "New Gate".</p>
+		<p>
+			Click a gate to replace it with a gate of type "New Gate".
+		</p>
 		New Gate: <input id="gate" type="text" value="00"/>
 		<ul>
 			<li><b>0</b>: Always returns 0
@@ -25,12 +27,19 @@
 			<li><b>^</b>: The XOR gate
 		</ul>
 		<h2>Description</h2>
-		<p>This project takes the form of a simple webpage using HTML5 canvas and JavaScript to implement lattice of logic gates.<br>
-		Values flow from the top to the bottom, as if the energy source for the implementation were gravity.<br>
-		The 2-input 2-output logic gates are labeled by ordered pairs of 2-input 1-output logic gates we're familiar with. The left gate of the pair represent the value given to the left-output of the gate, and the right follows suit.</p>
-		<p>The user also has the option to toggle between the animated 'falling marble' simulation, and the more instantaneous electric circuit simulation.<br>
-		In the animated simulation the presence of a falling ball or lack thereof represent HIGH and LOW logic accordingly.<br>
-		In the instantaneous simulation the red wired and blue wires represent HIGH and LOW logic accordingly.</p>
+		<p>
+			This project takes the form of a simple webpage using HTML5 canvas and JavaScript to implement lattice of logic gates.<br>
+			Values flow from the top to the bottom, as if the energy source for the implementation were gravity.<br>
+			The 2-input 2-output logic gates are labeled by ordered pairs of 2-input 1-output logic gates we're familiar with. The left gate of the pair represent the value given to the left-output of the gate, and the right follows suit.
+		</p>
+		<p>
+			The user also has the option to toggle between the animated 'falling marble' simulation, and the more instantaneous electric circuit simulation.<br>
+			In the animated simulation the presence of a falling ball or lack thereof represent HIGH and LOW logic accordingly.<br>
+			In the instantaneous simulation the red wired and blue wires represent HIGH and LOW logic accordingly.
+		</p>
+		<p>
+			Read more theory, implementation details and the source code <a href="https://github.com/jlcarr/particle-simulator">here</a>.
+		</p>
 		<h2>Sample Circuits</h2>
 		<button type="button" onclick="buildAdder();updateCells();drawCells();">Adder</button>
 	</body>
