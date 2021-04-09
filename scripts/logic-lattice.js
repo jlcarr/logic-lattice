@@ -158,7 +158,7 @@ function drawCells(){
 		}
 
 		// Draw rect
-		ctx.lineWidth = 1;
+		/*ctx.lineWidth = 1;
 		ctx.save();
 		ctx.translate(cell.x, cell.y);
 		ctx.rotate(Math.PI/4);
@@ -166,7 +166,16 @@ function drawCells(){
 		ctx.fillRect(-cellSize/8, -cellSize/8, cellSize/4, cellSize/4);
 		ctx.strokeStyle = 'black';
 		ctx.strokeRect(-cellSize/8, -cellSize/8, cellSize/4, cellSize/4);
-		ctx.restore();
+		ctx.restore();*/
+		// Draw circle
+		ctx.lineWidth = 2;
+		ctx.beginPath();
+		ctx.arc(cell.x, cell.y, cellSize/6, 0, Math.PI * 2, true);
+		ctx.closePath();
+		ctx.fillStyle = 'white';
+		ctx.fill();
+		ctx.strokeStyle = 'black';
+		ctx.stroke();
 		
 		// Draw circle text
 		ctx.fillStyle = 'black';
@@ -236,6 +245,27 @@ function buildAdder(){
 				var number = (2 * cells.nH + 1) * i + j + cells.nH + 1;
 				if (j < cells.nH - i) updateGate(number, "&^");
 				else updateGate(number, "LR");
+			}
+		}
+	}
+}
+
+function buildBraid(){
+	for(var i=0; i<=cells.nV; i++){
+		// reg cell
+		for(var j=0; j<=cells.nH; j++){
+			var number = (2 * cells.nH + 1) * i + j;
+			if(i == 0) updateGate(number, "11");
+			else if(i == cells.nV) updateGate(number, "00");
+			else if (j == 0) updateGate(number, "0R");
+			else if (j == cells.nH) updateGate(number, "L0");
+			else updateGate(number, "RL");
+		}
+		// staggered cell
+		if (i < cells.nV){
+			for(var j=0; j<cells.nH; j++){
+				var number = (2 * cells.nH + 1) * i + j + cells.nH + 1;
+				updateGate(number, "RL");
 			}
 		}
 	}
