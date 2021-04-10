@@ -13,10 +13,8 @@
 		<br>
 		<input type="checkbox" id="animate-static" onclick="stop(); animation_static = this.checked; updateCells(); drawCells(); if(animation_static) requestAnimationFrame(drawFrame);">
 		<label for="animate-static">Animate</label>
-		<p>
-			Click a gate to replace it with a gate of type "New Gate".
-		</p>
-		New Gate: <input id="gate" type="text" value="00"/>
+		New Gate: <input id="gate" type="text" value="00" maxlength="2"/>
+		<h3>Gate List</h3>
 		<ul>
 			<li><b>0</b>: Always returns 0</li>
 			<li><b>1</b>: Always returns 1</li>
@@ -26,6 +24,14 @@
 			<li><b>|</b>: The OR gate</li>
 			<li><b>^</b>: The XOR gate</li>
 		</ul>
+		<h2>Instructions</h2>
+		<p>
+			Enter a pairs of gates from the Gate List into the "New Gate" box.<br>
+			Click a gate on the cavas to replace it with a gate of type "New Gate".<br>
+			You can also click the buttons under the Sample Circuits to have a pre-build circuit loaded.<br>
+			Toggling the "Animate" button changes from the instantaneous simulation to the 'falling marble' simulation. See Description below.<br>
+			Toggling the "Show gate numbers" button changes from the gates on the canvas showing their operational logic symbol to their index in the array.
+		</p>
 		<h2>Description</h2>
 		<p>
 			This project takes the form of a simple webpage using HTML5 canvas and JavaScript to implement lattice of logic gates.<br>
@@ -38,7 +44,7 @@
 			In the instantaneous simulation the red wired and blue wires represent HIGH and LOW logic accordingly.
 		</p>
 		<p>
-			Read more theory, implementation details and the source code <a href="https://github.com/jlcarr/particle-simulator">here</a>.
+			Read more theory, implementation details and the source code <a href="https://github.com/jlcarr/logic-lattice">here</a>.
 		</p>
 		<h2>Sample Circuits</h2>
 		<button type="button" onclick="buildAdder();updateCells();drawCells();">Adder</button>
