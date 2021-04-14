@@ -13,6 +13,7 @@
 		<br>
 		<input type="checkbox" id="animate-static" onclick="stop(); animation_static = this.checked; updateCells(); drawCells(); if(animation_static) requestAnimationFrame(drawFrame);">
 		<label for="animate-static">Animate</label>
+		<br>
 		New Gate: <input id="gate" type="text" value="00" maxlength="2"/>
 		<h3>Gate List</h3>
 		<ul>
@@ -26,22 +27,22 @@
 		</ul>
 		<h2>Instructions</h2>
 		<p>
-			Enter a pairs of gates from the Gate List into the "New Gate" box.<br>
-			Click a gate on the cavas to replace it with a gate of type "New Gate".<br>
+			Enter a pair of gates from the Gate List into the "New Gate" box.<br>
+			Click a gate on the canvas to replace it with a gate of type "New Gate".<br>
 			You can also click the buttons under the Sample Circuits to have a pre-build circuit loaded.<br>
 			Toggling the "Animate" button changes from the instantaneous simulation to the 'falling marble' simulation. See Description below.<br>
 			Toggling the "Show gate numbers" button changes from the gates on the canvas showing their operational logic symbol to their index in the array.
 		</p>
 		<h2>Description</h2>
 		<p>
-			This project takes the form of a simple webpage using HTML5 canvas and JavaScript to implement lattice of logic gates.<br>
-			Values flow from the top to the bottom, as if the energy source for the implementation were gravity.<br>
-			The 2-input 2-output logic gates are labeled by ordered pairs of 2-input 1-output logic gates we're familiar with. The left gate of the pair represent the value given to the left-output of the gate, and the right follows suit.
+			This project takes the form of a simple webpage using HTML5 canvas and JavaScript to implement a lattice of logic gates.<br>
+			Logic flow from the top to the bottom, as if the energy source for the implementation were gravity.<br>
+			The 2-input 2-output logic gates are labeled by ordered pairs of 2-input 1-output logic gates we're familiar with. The left gate of the pair represent the value given to the left-output of the gate, and the right-output follows suit.
 		</p>
 		<p>
-			The user also has the option to toggle between the animated 'falling marble' simulation, and the more instantaneous electric circuit simulation.<br>
-			In the animated simulation the presence of a falling ball or lack thereof represent HIGH and LOW logic accordingly.<br>
-			In the instantaneous simulation the red wired and blue wires represent HIGH and LOW logic accordingly.
+			The user also has the option to toggle between the animated 'falling marble' simulation, and the more instantaneous 'electric circuit' simulation.<br>
+			In the animated simulation the presence of a falling ball or lack thereof represent HIGH and LOW logic levels accordingly.<br>
+			In the instantaneous simulation the red wires and blue wires represent HIGH and LOW logic accordingly.
 		</p>
 		<p>
 			Read more theory, implementation details and the source code <a href="https://github.com/jlcarr/logic-lattice">here</a>.
