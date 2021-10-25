@@ -43,13 +43,13 @@ This result can be found by noticing that each possible input Hamming weight, *k
 For the case *n*=2, we have **36** possible gates.
 
 ### Gate Synthesis
-So, what are these 36 gates? We could simply iterate over all possible truth tables and output those that match our condition, but we can do better: let's instead sythesis and describe these allowed gates in terms of logic gates we're familiar with. Let's describe them in terms of pairs of our classic 2-input 1-output logic gates.  
+So, what are these 36 gates? We could simply iterate over all possible truth tables and output those that match our condition, but we can do better: let's instead synthesize and describe these allowed gates in terms of logic gates we're more familiar with. Let's describe them in terms of pairs of our classic 2-input 1-output logic gates.  
 We can describe the truth table of a given gate by appending the outputs column into a binary string. Therefore all possible 2-input 1-output gates can be described in terms of a 4-bit binary string.  
-Here we have a table of all possible 2-input 1-output gates, where the rows show the values of the first 2 bits, and the outputs are the last 2 bits:
+Here we have a table of all possible 2-input 1-output gates, where the rows show the values of the first 2 bits, and the columns show the last 2 bits:
 |    | 00 | 01 | 10 | 11 |
 |:--:|:--:|:--:|:--:|:--:|
 | 00 | 0 | &and; | &and;<sub>A&#773;</sub> | B |
-| 01 | &and;<sub>A&#773;</sub> | A | &nequiv; | &or; |
+| 01 | &and;<sub>B&#773;</sub> | A | &nequiv; | &or; |
 | 10 | &#x22bd; | &equiv; | A&#773; | &or;<sub>A&#773;</sub> |
 | 11 | B&#773; | &or;<sub>B&#773;</sub> | &#x22bc; | 1 |
 
@@ -78,13 +78,17 @@ In the animated simulation the presence of a falling ball or lack thereof repres
 In the instantaeous simulation the red wired and blue wires represent HIGH and LOW logic accordingly.  
 
 ### Gates Implemented
-- **0**: Always return 0
-- **1**: Always returns 1 (not a gate that respects the Hamming weight condition, but useful for inputs)
-- **R**: returns the value of right input
-- **L**: returns the value of the left input
-- **&**: The AND gate
-- **|**: The OR gate
-- **^**: The XOR gate
+| Operator | Mathematical Symbol | Name | Description | Wikipedia Link |
+|:-:|:-:|:-:|:-:|:-:|
+| 0 | 0 | The False gate | Always returns 0 | ![link](https://en.wikipedia.org/wiki/Logical_truth) |
+| 1 | 1 | The Truth gate | Always returns 1 | ![link](https://en.wikipedia.org/wiki/False_(logic)) |
+| L | A | The left identity operator | Returns the value of the left input | ![link](https://en.wikipedia.org/wiki/Left_and_right_(algebra)) |
+| R | B | The right identity operator | Returns the value of right input | ![link](https://en.wikipedia.org/wiki/Left_and_right_(algebra)) |
+| & | &and; | The AND gate | Only returns 1 if both inputs are 1 | ![link](https://en.wikipedia.org/wiki/AND_gate) |
+| & | &or; | The OR gate | Returns 1 if any input is 1 | ![link](https://en.wikipedia.org/wiki/OR_gate) |
+| ^ | &nequiv; | The XOR gate | Returns 1 if either input is 1 but not both | ![link](https://en.wikipedia.org/wiki/XOR_gate) |
+
+- Note: The Truth gate is not a gate that respects the Hamming weight condition, but is useful for defining inputs in the logic lattice.
 
 ## References
 ### Mechanical Computers
@@ -93,5 +97,6 @@ In the instantaeous simulation the red wired and blue wires represent HIGH and L
 - https://en.wikipedia.org/wiki/Digi-Comp_II
 - https://www.scottaaronson.com/blog/?p=1902
 ### Boolean Logic
+- https://en.wikipedia.org/wiki/Logical_connective
 - https://en.wikipedia.org/wiki/Boolean_circuit
 - https://en.wikipedia.org/wiki/Truth_table
