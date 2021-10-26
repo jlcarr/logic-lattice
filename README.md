@@ -75,18 +75,18 @@ This project takes the form of a simple webpage using HTML5 canvas and JavaScrip
 
 The user also has the option to toggle between the animated 'falling marble' simulation, and the more instantaneous electric circuit simulation.  
 In the animated simulation the presence of a falling ball or lack thereof represent HIGH and LOW logic accordingly.  
-In the instantaeous simulation the red wired and blue wires represent HIGH and LOW logic accordingly.  
+In the instantaneous simulation the red wired and blue wires represent HIGH and LOW logic accordingly.  
 
 ### Gates Implemented
 | Operator | Mathematical Symbol | Name | Description | Wikipedia Link |
 |:-:|:-:|:-:|:-:|:-:|
-| 0 | 0 | The False gate | Always returns 0 | ![link](https://en.wikipedia.org/wiki/Logical_truth) |
-| 1 | 1 | The Truth gate | Always returns 1 | ![link](https://en.wikipedia.org/wiki/False_(logic)) |
-| L | A | The left identity operator | Returns the value of the left input | ![link](https://en.wikipedia.org/wiki/Left_and_right_(algebra)) |
-| R | B | The right identity operator | Returns the value of right input | ![link](https://en.wikipedia.org/wiki/Left_and_right_(algebra)) |
-| & | &and; | The AND gate | Only returns 1 if both inputs are 1 | ![link](https://en.wikipedia.org/wiki/AND_gate) |
-| & | &or; | The OR gate | Returns 1 if any input is 1 | ![link](https://en.wikipedia.org/wiki/OR_gate) |
-| ^ | &nequiv; | The XOR gate | Returns 1 if either input is 1 but not both | ![link](https://en.wikipedia.org/wiki/XOR_gate) |
+| 0 | 0 | The False gate | Always returns 0 | [link](https://en.wikipedia.org/wiki/Logical_truth) |
+| 1 | 1 | The Truth gate | Always returns 1 | [link](https://en.wikipedia.org/wiki/False_(logic)) |
+| L | A | The left identity operator | Returns the value of the left input | [link](https://en.wikipedia.org/wiki/Left_and_right_(algebra)) |
+| R | B | The right identity operator | Returns the value of right input | [link](https://en.wikipedia.org/wiki/Left_and_right_(algebra)) |
+| & | &and; | The AND gate | Only returns 1 if both inputs are 1 | [link](https://en.wikipedia.org/wiki/AND_gate) |
+| & | &or; | The OR gate | Returns 1 if any input is 1 | [link](https://en.wikipedia.org/wiki/OR_gate) |
+| ^ | &nequiv; | The XOR gate | Returns 1 if either input is 1 but not both | [link](https://en.wikipedia.org/wiki/XOR_gate) |
 
 - Note: The Truth gate is not a gate that respects the Hamming weight condition, but is useful for defining inputs in the logic lattice.
 
